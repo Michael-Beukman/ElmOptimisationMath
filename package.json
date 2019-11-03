@@ -1,0 +1,12 @@
+{
+  "name": "elmcodes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "chokidar '**/*.elm' -c 'elm make src/Main.elm --output elm.js' --initial"
+  },
+  "author": "",
+  "license": "ISC"
+}
