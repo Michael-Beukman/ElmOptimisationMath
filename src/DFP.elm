@@ -22,9 +22,9 @@ getnewG delta gamma oldG =
         )
 
 
-stepsStart : Function -> VecFunction -> Float -> Matrix -> List Matrix
-stepsStart f g tol xstart =
-    steps f g (g xstart) (makeMatrix [ [ 1, 0 ], [ 0, 1 ] ]) tol xstart 1000
+stepsStart : Function -> VecFunction -> Float -> Matrix -> Int -> List Matrix
+stepsStart f g tol xstart numTimes =
+    steps f g (g xstart) (makeMatrix [ [ 1, 0 ], [ 0, 1 ] ]) tol xstart numTimes
 
 
 steps : Function -> VecFunction -> Matrix -> Matrix -> Float -> Matrix -> Int -> List Matrix

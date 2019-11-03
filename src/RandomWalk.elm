@@ -27,9 +27,6 @@ getLi num seed =
 randomWalk : Function -> Matrix -> Float -> Float -> Int -> Seed -> Int -> List Matrix
 randomWalk f x0 tol lambda maxK seed currK =
     let
-        dddd =
-            Debug.log "here " [ toFloat maxK, toFloat currK, lambda, tol ]
-
         -- dir: Matrix
         ( li, newseed ) =
             getLi 2 seed

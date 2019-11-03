@@ -17,8 +17,8 @@ clearScreen screenwidth screenheight =
     shapes [ fill Color.white ] [ rect ( 0, 0 ) (toFloat screenwidth) (toFloat screenheight) ]
 
 
-renderAxes : Int -> Int -> Html msg
-renderAxes screenwidth screenheight =
+renderAxes : Int -> Int -> List Canvas.Renderable -> Html msg
+renderAxes screenwidth screenheight otherrenderables =
     Canvas.toHtml
         ( screenwidth, screenheight )
         [ style "border" "10px solid rgba(0,0,0,0.1)" ]
@@ -30,8 +30,9 @@ renderAxes screenwidth screenheight =
                ]
             ++ [ shapes [ fill Color.red, stroke Color.black ] [ path ( toFloat (screenwidth // 2), 0 ) [ lineTo ( toFloat (screenheight // 2), toFloat screenwidth ) ] ] ]
             ++ [ contourplots (\( x, y ) -> f (makeMatrix [ [ x ], [ y ] ])) ]
-            --++ renderDFP
-            ++ renderSimplex
+            ++ otherrenderables
+         -- ++ renderDFP
+         -- ++ renderSimplex
         )
 
 
@@ -118,14 +119,12 @@ contourplots func =
         )
 
 
-renderDFP : List Canvas.Renderable
-renderDFP =
+renderDFP : List Matrix -> List Canvas.Renderable
+renderDFP li =
     let
-        li =
-            -- stepsStart f derivative 0.001 (makeMatrix [ [ 1 ], [ -1 ] ])
-            -- now random walk
-            randomWalk f (makeMatrix [ [ 1 ], [ -1 ] ]) 0.001 2 100 (Random.initialSeed 10) 0
-
+        -- makeMatrix [ [ 1 ], [ -1 ] ]
+        -- now random walk
+        -- randomWalk f (makeMatrix [ [ 1 ], [ -1 ] ]) 0.001 2 100 (Random.initialSeed 10) 0
         limat =
             List.map
                 (\value ->
@@ -137,9 +136,6 @@ renderDFP =
 
         ff =
             Maybe.withDefault ( 0, 0 ) (List.head limat)
-
-        lollog =
-            Debug.log "list " li
     in
     List.map
         (\matrix ->
@@ -150,7 +146,7 @@ renderDFP =
                 y =
                     second matrix
             in
-            shapes [ fill Color.blue ] [ circle (scale ( x, y )) 1 ]
+            shapes [ fill Color.green ] [ circle (scale ( x, y )) 5 ]
         )
         li
         ++ [ shapes [ stroke Color.green ] [ path (scale ff) (List.map (\ffff -> lineTo (scale ffff)) limat) ] ]
